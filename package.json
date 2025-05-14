@@ -12,7 +12,7 @@
 	"description": "Decorators for user-friendly identification of domain classes and objects",
 	"devDependencies": {
 		"@types/node": "^22.10",
-		"typescript": "^5.6"
+		"typescript": "~5.8"
 	},
 	"engines": {
 		"node": ">=18"
@@ -45,5 +45,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json && node esm/esm"
 	},
 	"types": "./esm/class-view.d.ts",
-	"version": "0.0.3"
+	"version": "0.0.4"
 }
