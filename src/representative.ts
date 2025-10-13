@@ -28,9 +28,11 @@ export function Representative<T extends object>(...properties: KeyOf<T>[])
 				writable:     true
 			})
 		}
-		return properties.length
-			? properties
-			: new ReflectClass(target).propertyNames.filter(name => depends.requiredOf(target, name))
+		if (properties.length) return properties
+		properties     = new ReflectClass(target).propertyNames
+		const required = properties.filter(name => depends.requiredOf(target, name))
+		if (required.length) return required
+		return properties.slice(0, 3)
 	})
 }
 
