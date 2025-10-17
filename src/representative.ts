@@ -21,12 +21,7 @@ export function Representative<T extends object>(...properties: KeyOf<T>[])
 {
 	return decorateCallback<T>(REPRESENTATIVE, target => {
 		if (target.prototype.toString === Object.prototype.toString) {
-			Object.defineProperty(target.prototype, 'toString', {
-				configurable: true,
-				enumerable:   false,
-				value:        function() { return representativeValueOf<T>(this) },
-				writable:     true
-			})
+			target.prototype.toString = function() { return representativeValueOf<T>(this) }
 		}
 		if (properties.length) return properties
 		properties     = new ReflectClass(target).propertyNames
