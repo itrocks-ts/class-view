@@ -3,11 +3,13 @@ import { decorateCallback, decoratorOfCallback } from '@itrocks/decorator/class'
 import { ReflectClass }                          from '@itrocks/reflect'
 
 export type Dependencies = {
-	requiredOf: <T extends object>(target: Type<T>, property: KeyOf<T>) => boolean
+	propertyOutput: <T extends object>(object: T, property: KeyOf<T>) => Promise<string>,
+	requiredOf:     <T extends object>(target: Type<T>, property: KeyOf<T>) => boolean
 }
 
 const depends: Dependencies = {
-	requiredOf: () => true
+	propertyOutput: async (object, property) => '' + await object[property],
+	requiredOf:     () => true
 }
 
 const REPRESENTATIVE = Symbol('representative')
@@ -39,10 +41,11 @@ export function representativeOf<T extends object>(target: ObjectOrType<T>): Key
 	return representativeOf<T>(target)
 }
 
-export function representativeValueOf<T extends object>(target: T)
+export async function representativeValueOf<T extends object>(target: T)
 {
-	return representativeOf<T>(target)
-		.map(property => target[property])
-		.filter(value => (value + '').length)
+	return (await Promise.all(
+		representativeOf<T>(target).map(async property => await depends.propertyOutput(target, property))
+	))
+		.filter(async value => (value + '').length)
 		.join(' ')
 }

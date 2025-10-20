@@ -15,10 +15,16 @@ export function classOutputDependsOn(dependencies: Partial<Dependencies>)
 	Object.assign(depends, dependencies)
 }
 
-export const outputOf = (target: ObjectOrType) => isObject(target)
-	? (displayOf(target) + ' ' + representativeValueOf(target))
-	: displayOf(target)
+export async function outputOf(target: ObjectOrType)
+{
+	return isObject(target)
+		? (displayOf(target) + ' ' + await representativeValueOf(target))
+		: displayOf(target)
+}
 
-export const trOutputOf = (target: ObjectOrType) => isObject(target)
-	? (depends.tr(displayOf(target)) + ' ' + representativeValueOf(target))
-	: depends.tr(displayOf(target))
+export async function trOutputOf(target: ObjectOrType)
+{
+	return isObject(target)
+		? (depends.tr(displayOf(target)) + ' ' + await representativeValueOf(target))
+		: depends.tr(displayOf(target))
+}
