@@ -23,7 +23,7 @@ export function Representative<T extends object>(...properties: KeyOf<T>[])
 {
 	return decorateCallback<T>(REPRESENTATIVE, target => {
 		if (target.prototype.toString === Object.prototype.toString) {
-			target.prototype.toString = function() { return representativeValueOf<T>(this) }
+			target.prototype.toString = function() { return representativeValueOf(this) }
 		}
 		if (properties.length) return properties
 		properties     = new ReflectClass(target).propertyNames
@@ -41,10 +41,10 @@ export function representativeOf<T extends object>(target: ObjectOrType<T>): Key
 	return representativeOf<T>(target)
 }
 
-export async function representativeValueOf<T extends object>(target: T)
+export async function representativeValueOf(target: object)
 {
 	return (await Promise.all(
-		representativeOf<T>(target).map(async property => await depends.propertyOutput(target, property))
+		representativeOf(target).map(async property => await depends.propertyOutput(target, property))
 	))
 		.filter(async value => (value + '').length)
 		.join(' ')
