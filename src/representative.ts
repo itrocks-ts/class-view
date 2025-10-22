@@ -22,9 +22,6 @@ export function classRepresentativeDependsOn(dependencies: Partial<Dependencies>
 export function Representative<T extends object>(...properties: KeyOf<T>[])
 {
 	return decorateCallback<T>(REPRESENTATIVE, target => {
-		if (target.prototype.toString === Object.prototype.toString) {
-			target.prototype.toString = function() { return representativeValueOf(this) }
-		}
 		if (properties.length) return properties
 		properties     = new ReflectClass(target).propertyNames
 		const required = properties.filter(name => depends.requiredOf(target, name))
