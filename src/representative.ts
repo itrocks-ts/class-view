@@ -23,7 +23,13 @@ export function Representative<T extends object>(...properties: KeyOf<T>[])
 {
 	return decorateCallback<T>(REPRESENTATIVE, target => {
 		if (properties.length) return properties
-		properties     = new ReflectClass(target).propertyNames
+		try {
+			properties = new ReflectClass(target).propertyNames
+		}
+		catch(error) {
+			console.log('@itrocks/representative called `new ReflectClass(', target, ')` but it crashed:')
+			console.warn(error)
+		}
 		const required = properties.filter(name => depends.requiredOf(target, name))
 		if (required.length) return required
 		return properties.slice(0, 3)
