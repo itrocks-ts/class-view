@@ -1,4 +1,3 @@
-
 import { Dependencies as OutputDependencies }         from './output'
 import { classOutputDependsOn }                       from './output'
 import { Dependencies as RepresentativeDependencies } from './representative'
