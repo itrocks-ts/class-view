@@ -49,6 +49,6 @@ export async function representativeValueOf(target: object)
 	return (await Promise.all(
 		representativeOf(target).map(async property => await depends.propertyOutput(target, property))
 	))
-		.filter(async value => (value + '').length)
+		.filter(async value => ('' + value).length)
 		.join(' ')
 }
