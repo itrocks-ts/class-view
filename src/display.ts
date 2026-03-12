@@ -1,6 +1,8 @@
-import { baseType, ObjectOrType }                from '@itrocks/class-type'
-import { decorateCallback, decoratorOfCallback } from '@itrocks/decorator/class'
-import { toDisplay }                             from '@itrocks/rename'
+import { baseType }            from '@itrocks/class-type'
+import { ObjectOrType }        from '@itrocks/class-type'
+import { decorateCallback }    from '@itrocks/decorator/class'
+import { decoratorOfCallback } from '@itrocks/decorator/class'
+import { toDisplay }           from '@itrocks/rename'
 
 const DISPLAY = Symbol('display')
 

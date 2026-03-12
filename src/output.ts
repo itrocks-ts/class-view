@@ -1,6 +1,7 @@
-import { isObject, ObjectOrType } from '@itrocks/class-type'
-import { displayOf }              from './display'
-import { representativeValueOf }  from './representative'
+import { isObject }              from '@itrocks/class-type'
+import { ObjectOrType }          from '@itrocks/class-type'
+import { displayOf }             from './display'
+import { representativeValueOf } from './representative'
 
 export type Dependencies = {
 	tr: (text: string) => string

@@ -1,10 +1,13 @@
-import { KeyOf, ObjectOrType, Type, typeOf }     from '@itrocks/class-type'
-import { decorateCallback, decoratorOfCallback } from '@itrocks/decorator/class'
-import { ReflectClass }                          from '@itrocks/reflect'
+import { ObjectOrType }        from '@itrocks/class-type'
+import { Type }                from '@itrocks/class-type'
+import { typeOf }              from '@itrocks/class-type'
+import { decorateCallback }    from '@itrocks/decorator/class'
+import { decoratorOfCallback } from '@itrocks/decorator/class'
+import { ReflectClass }        from '@itrocks/reflect'
 
 export type Dependencies = {
-	propertyOutput: <T extends object>(object: T, property: KeyOf<T>) => Promise<string>,
-	requiredOf:     <T extends object>(target: Type<T>, property: KeyOf<T>) => boolean
+	propertyOutput: <T extends object>(object: T, property: keyof T) => Promise<string>,
+	requiredOf:     <T extends object>(target: Type<T>, property: keyof T) => boolean
 }
 
 const depends: Dependencies = {
@@ -19,7 +22,7 @@ export function classRepresentativeDependsOn(dependencies: Partial<Dependencies>
 	Object.assign(depends, dependencies)
 }
 
-export function Representative<T extends object>(...properties: KeyOf<T>[])
+export function Representative<T extends object>(...properties: (keyof T)[])
 {
 	return decorateCallback<T>(REPRESENTATIVE, target => {
 		if (properties.length) return properties
@@ -36,9 +39,9 @@ export function Representative<T extends object>(...properties: KeyOf<T>[])
 	})
 }
 
-export function representativeOf<T extends object>(target: ObjectOrType<T>): KeyOf<T>[]
+export function representativeOf<T extends object>(target: ObjectOrType<T>): (keyof T)[]
 {
-	const result = decoratorOfCallback<T, KeyOf<T>[]>(target, REPRESENTATIVE)
+	const result = decoratorOfCallback<T, (keyof T)[]>(target, REPRESENTATIVE)
 	if (result) return result
 	Representative()(typeOf(target))
 	return representativeOf<T>(target)
